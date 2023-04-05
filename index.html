@@ -30,29 +30,36 @@
         }
 
         .logout-button {
-            background-color: #0078d7;
+            background-color: #f00;
             color: #fff;
             border: none;
             border-radius: 0.25rem;
             padding: 0.5rem 1rem;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-top: 1rem;
         }
 
         .logout-button:hover {
-            background-color: #005a9e;
+            background-color: #d50000;
         }
     </style>
 </head>
 <body class="dark-mode">
     <div class="homepage-container">
-        <h1>Welcome to the Homepage</h1>
-        <button class="logout-button" onclick="location.href='login.html'">Logout</button>
+        <h1>Welcome to the Homepage!</h1>
+        <button onclick="logout()" class="logout-button">Logout</button>
     </div>
 
     <script>
-        // Check if user is logged in
+        // Function to handle logout
+        function logout() {
+            // Remove login status from local storage
+            localStorage.removeItem("isLoggedIn");
+            // Redirect to login page
+            window.location.replace("login.html");
+        }
+
+        // Check login status on page load
         if (!localStorage.getItem("isLoggedIn")) {
             // Redirect to login page
             window.location.replace("login.html");
