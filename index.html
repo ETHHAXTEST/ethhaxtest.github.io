@@ -42,6 +42,17 @@
         .logout-button:hover {
             background-color: #d50000;
         }
+
+        .popup-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            display: none;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -50,7 +61,13 @@
         <button onclick="logout()" class="logout-button">Logout</button>
     </div>
 
+    <div class="popup-container" id="popup-container"></div>
+
     <script>
+        // Set inactivity timeout (in milliseconds)
+        const inactivityTimeout = 60000; // 1 minute
+        const popupTime = 10000; // 10 seconds before timeout
+
         // Function to handle logout
         function logout() {
             // Remove login status from local storage
@@ -59,10 +76,33 @@
             window.location.replace("login.html");
         }
 
+        // Reset inactivity timer on any user interaction
+        function resetTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(showPopup, inactivityTimeout - popupTime);
+            inactivityTimer = setTimeout(logout, inactivityTimeout);
+        }
+
         // Check login status on page load
         if (!localStorage.getItem("isLoggedIn")) {
             // Redirect to login page
             window.location.replace("login.html");
+        }
+
+        // Set initial inactivity timer
+        let inactivityTimer = setTimeout(showPopup, inactivityTimeout - popupTime);
+        inactivityTimer = setTimeout(logout, inactivityTimeout);
+
+        // Attach event listeners for user interactions
+        window.addEventListener("mousemove", resetTimer);
+        window.addEventListener("keydown", resetTimer);
+        window.addEventListener("click", resetTimer);
+
+        // Function to show popup message
+        function showPopup() {
+            const popupContainer = document.getElementById("popup-container");
+            popupContainer.innerText = `You will be logged out in ${popupTime / 1000} seconds.`;
+            popupContainer.style.display = "block";
         }
     </script>
 </body>
