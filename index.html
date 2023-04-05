@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage - Dark Mode</title>
+    <title>Login - Dark Mode</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
             color: #fff;
         }
         
-        .homepage-container {
+        .login-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,7 +29,21 @@
             margin-bottom: 2rem;
         }
 
-        .logout-button {
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        input[type="text"], input[type="password"] {
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .submit-button {
             background-color: #0078d7;
             color: #fff;
             border: none;
@@ -37,18 +51,55 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-top: 1rem;
         }
 
-        .logout-button:hover {
+        .submit-button:hover {
             background-color: #005a9e;
+        }
+
+        .error-message {
+            color: #f00;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body class="dark-mode">
-    <div class="homepage-container">
-        <h1>Welcome to the Homepage</h1>
-        <button class="logout-button" onclick="location.href='login.html'">Logout</button>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form onsubmit="return login()" id="login-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Login" class="submit-button">
+        </form>
+        <p class="error-message" id="error-message"></p>
     </div>
+
+    <script>
+        // Get form elements
+        const form = document.getElementById("login-form");
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const errorMessage = document.getElementById("error-message");
+
+        // Function to handle form submission
+        function login() {
+            // Check if username and password are correct
+            if (usernameInput.value === "ethhaxuser" && passwordInput.value === "0000") {
+                // Store login status in local storage
+                localStorage.setItem("isLoggedIn", "true");
+                // Redirect to homepage
+                window.location.replace("index.html");
+                // Prevent form submission
+                return false;
+            } else {
+                // Display error message
+                errorMessage.textContent = "Incorrect username or password.";
+                // Prevent form submission
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>
